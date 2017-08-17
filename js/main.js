@@ -10,7 +10,7 @@ var getFireballSpeed = function(left){
 var wizardSpeed = 3;
 var wizardWidth = 70;
 var getWizardHeight = function(){
-  return 1.337*wizardWidth
+  return 1.337*wizardWidth;
 }
 var getWizardX = function(width){
   var magePositionX = width/2-wizardWidth/2;
