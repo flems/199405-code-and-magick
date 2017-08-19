@@ -1,29 +1,41 @@
+const POINTS = [
+  {x: 120, y: 155},
+  {x: 180, y: 20},
+  {x: 490, y: 20},
+  {x: 540, y: 155},
+  {x: 480, y: 290},
+  {x: 180, y: 290},
+  {x: 120, y: 155},
+];
+var cloudColor = '#fff';
+var shadowCloudColor = 'rgba(0, 0, 0, 0.7)';
+var shadowStep = 10;
+var textColor = '#000';
+var histogramHeight = 150;
+var histogramWidth = 40;
+var histogramBegin = {
+  column: {x: 200, y: 260},
+  name: {x: 200, y: 270},
+  time: {x: 200, y: 240},
+};
+var columnColor = 'rgba(32, 60, 171, 1)';
+var columnColorYourResult = 'rgba(255, 0, 0, 1)';
+
 window.renderStatistics = function(ctx, names, times){
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.beginPath();
-  ctx.moveTo(130, 165);
-  ctx.lineTo(190, 30);
-  ctx.lineTo(500, 30);
-  ctx.lineTo(550, 165);
-  ctx.lineTo(490, 300);
-  ctx.lineTo(190, 300);
-  ctx.lineTo(130, 165);
-  ctx.closePath();
-  ctx.fill();
+  var drawCloud = function(color, step){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(POINTS[0]['x'] + step, POINTS[0]['y'] + step);
+    for (var i = 1; i < POINTS.length; i++){
+        ctx.lineTo(POINTS[i]['x'] + step, POINTS[i]['y'] + step);
+    }
+    ctx.closePath();
+    ctx.fill();
+  };
+  drawCloud(shadowCloudColor, shadowStep);
+  drawCloud(cloudColor, 0);
 
-  ctx.fillStyle = '#fff';
-  ctx.beginPath();
-  ctx.moveTo(120, 155);
-  ctx.lineTo(180, 20);
-  ctx.lineTo(490, 20);
-  ctx.lineTo(540, 155);
-  ctx.lineTo(480, 290);
-  ctx.lineTo(180, 290);
-  ctx.lineTo(120, 155);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = '#000';
+  ctx.fillStyle = textColor;
   ctx.textBaseline = 'hanging';
   ctx.fillText('Ура вы победили!', 250, 40);
   ctx.fillText('Список результатов:', 240, 60);
@@ -37,33 +49,18 @@ window.renderStatistics = function(ctx, names, times){
       maxIndex = i;
     }
   }
-  var histogramHeight = 150;
   var result = histogramHeight / (maxTime - 0);
 
-  var yourResult = 'игрок';
-  var playerIndex = 0;
-
-  for(var i = 0; i < names.length; i++){
-    var playerName = names[i];
-    if(playerName === 'Вы'){
-      yourResult = playerName;
-      playerIndex = i;
-    }
-  };
-
   var range = 0;
-  var histogramWidth = 0;
   for(var i = 0; i < names.length; i++){
     if(names[i] === 'Вы') {
-     ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+     ctx.fillStyle = columnColorYourResult;
    } else {
-     ctx.fillStyle = 'rgba(32, 60, 171, 1)';
+     ctx.fillStyle = columnColor;
    }
-     ctx.fillRect(200 + range + histogramWidth, 110, 40, result * times[i]);
-     ctx.textBaseline = 'hanging';
-     ctx.fillText(names[i], 200 + range + histogramWidth, 120 + result * times[i]);
-     ctx.fillText((times[i]/1000).toFixed(2), 200 + range + histogramWidth, 90);
-     range += 30;
-     histogramWidth += 40;
+     ctx.fillRect(histogramBegin['column']['x'] + range , histogramBegin['column']['y'] - result * times[i], histogramWidth, result * times[i]);
+     ctx.fillText(names[i], histogramBegin['name']['x'] + range , histogramBegin['name']['y']);
+     ctx.fillText((times[i]/1000).toFixed(2), histogramBegin['time']['x'] + range , histogramBegin['time']['y'] - result * times[i]);
+     range += 70;
   }
 }
