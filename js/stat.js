@@ -1,4 +1,5 @@
-const POINTS = [
+'use strict';
+var POINTS = [
   {x: 120, y: 155},
   {x: 180, y: 20},
   {x: 490, y: 20},
@@ -21,13 +22,13 @@ var histogramBegin = {
 var columnColor = 'rgba(32, 60, 171, 1)';
 var columnColorYourResult = 'rgba(255, 0, 0, 1)';
 
-window.renderStatistics = function(ctx, names, times){
-  var drawCloud = function(color, step){
+window.renderStatistics = function (ctx, names, times) {
+  var drawCloud = function (color, step) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(POINTS[0]['x'] + step, POINTS[0]['y'] + step);
-    for (var i = 1; i < POINTS.length; i++){
-        ctx.lineTo(POINTS[i]['x'] + step, POINTS[i]['y'] + step);
+    for (var i = 1; i < POINTS.length; i++) {
+      ctx.lineTo(POINTS[i]['x'] + step, POINTS[i]['y'] + step);
     }
     ctx.closePath();
     ctx.fill();
@@ -41,26 +42,24 @@ window.renderStatistics = function(ctx, names, times){
   ctx.fillText('Список результатов:', 240, 60);
 
   var maxTime = 0;
-  var maxIndex = 0;
-  for(var i = 0; i < times.length; i++){
+  for (var i = 0; i < times.length; i++) {
     var time = times[i];
-    if(time > maxTime){
+    if (time > maxTime) {
       maxTime = time;
-      maxIndex = i;
     }
   }
   var result = histogramHeight / (maxTime - 0);
 
   var range = 0;
-  for(var i = 0; i < names.length; i++){
-    if(names[i] === 'Вы') {
-     ctx.fillStyle = columnColorYourResult;
-   } else {
-     ctx.fillStyle = columnColor;
-   }
-     ctx.fillRect(histogramBegin['column']['x'] + range , histogramBegin['column']['y'] - result * times[i], histogramWidth, result * times[i]);
-     ctx.fillText(names[i], histogramBegin['name']['x'] + range , histogramBegin['name']['y']);
-     ctx.fillText((times[i]/1000).toFixed(2), histogramBegin['time']['x'] + range , histogramBegin['time']['y'] - result * times[i]);
-     range += 70;
+  for (i = 0; i < names.length; i++) {
+    if (names[i] === 'Вы') {
+      ctx.fillStyle = columnColorYourResult;
+    } else {
+      ctx.fillStyle = columnColor;
+    }
+    ctx.fillRect(histogramBegin['column']['x'] + range, histogramBegin['column']['y'] - result * times[i], histogramWidth, result * times[i]);
+    ctx.fillText(names[i], histogramBegin['name']['x'] + range, histogramBegin['name']['y']);
+    ctx.fillText((times[i] / 1000).toFixed(2), histogramBegin['time']['x'] + range, histogramBegin['time']['y'] - result * times[i]);
+    range += 70;
   }
-}
+};
