@@ -33,16 +33,21 @@ var players = [
   },
 
 ];
-var renderWizard = function(wizard){
+var creatWizardElement = function(wizard){
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
   return wizardElement;
 }
-var WizardListFragment = document.createDocumentFragment();
-for (var i = 0; i < 4; i++){
-  WizardListFragment.appendChild(renderWizard(players[i]));
-};
-otherUsers.appendChild(WizardListFragment);
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+var fillWizardList = function(){
+  var WizardListFragment = document.createDocumentFragment();
+  for (var i = 0; i < 4; i++){
+    WizardListFragment.appendChild(creatWizardElement(players[i]));
+  };
+  otherUsers.appendChild(WizardListFragment);
+  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+}
+
+fillWizardList();
