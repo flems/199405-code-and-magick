@@ -44,29 +44,29 @@ window.renderStatistics = function (ctx, names, times) {
     }
     ctx.closePath();
     ctx.fill();
-  };
+  }
 
-  function drawText(){
+  function drawText() {
     ctx.fillStyle = TEXT_COLOR;
     ctx.textBaseline = 'hanging';
     ctx.fillText(TEXT_WIN.text, TEXT_WIN.x, TEXT_WIN.y);
     ctx.fillText(TEXT_RESULT.text, TEXT_RESULT.x, TEXT_RESULT.y);
-  };
+  }
 
   // function findResult(){
-    var maxTime = 0;
-    for (var i = 0; i < times.length; i++) {
-      var time = times[i];
-      if (time > maxTime) {
-        maxTime = time;
-      }
+  var maxTime = 0;
+  for (var i = 0; i < times.length; i++) {
+    var time = times[i];
+    if (time > maxTime) {
+      maxTime = time;
     }
-    var result = HISTOGRAM_HEIGHT / (maxTime - 0);
-    // return result;
+  }
+  var result = HISTOGRAM_HEIGHT / (maxTime - 0);
+  // return result;
   // }
   // var result = findResult();
 
-  function createHistogram(){
+  function createHistogram() {
     var range = 0;
     for (i = 0; i < names.length; i++) {
       if (names[i] === 'Вы') {
@@ -81,11 +81,11 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
 
-  function loadResults(){
+  function loadResults() {
     drawCloud(SHADOW_CLOUD_COLOR, SHADOW_STEP);
     drawCloud(CLOUD_COLOR, 0);
     drawText();
-    createHistogram()
+    createHistogram();
   }
   loadResults();
 
