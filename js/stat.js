@@ -1,4 +1,5 @@
 'use strict';
+
 var POINTS = [
   {x: 120, y: 155},
   {x: 180, y: 20},
