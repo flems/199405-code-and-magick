@@ -9,58 +9,84 @@ var POINTS = [
   {x: 180, y: 290},
   {x: 120, y: 155},
 ];
-var cloudColor = '#fff';
-var shadowCloudColor = 'rgba(0, 0, 0, 0.7)';
-var shadowStep = 10;
-var textColor = '#000';
-var histogramHeight = 150;
-var histogramWidth = 40;
-var histogramBegin = {
+var CLOUD_COLOR = '#fff';
+var SHADOW_CLOUD_COLOR = 'rgba(0, 0, 0, 0.7)';
+var SHADOW_STEP = 10;
+var TEXT_COLOR = '#000';
+var HISTOGRAM_HEIGHT = 150;
+var HISTOGRAM_WIDTH = 40;
+var HISTOGRAM_BEGIN = {
   column: {x: 200, y: 260},
   name: {x: 200, y: 270},
   time: {x: 200, y: 240},
 };
-var columnColor = 'rgba(32, 60, 171, 1)';
-var columnColorYourResult = 'rgba(255, 0, 0, 1)';
+var COLUMN_COLOR = 'rgba(32, 60, 171, 1)';
+var COLUMN_COLOR_YOUR_RESULT = 'rgba(255, 0, 0, 1)';
+var TEXT_WIN = {
+  text: 'Ура вы победили!',
+  x: 250,
+  y: 40
+};
+var TEXT_RESULT = {
+  text: 'Список результатов:',
+  x: 240,
+  y: 60
+};
 
 window.renderStatistics = function (ctx, names, times) {
-  var drawCloud = function (color, step) {
+
+  function drawCloud(color, step) {
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.moveTo(POINTS[0]['x'] + step, POINTS[0]['y'] + step);
+    ctx.moveTo(POINTS[0].x + step, POINTS[0].y + step);
     for (var i = 1; i < POINTS.length; i++) {
-      ctx.lineTo(POINTS[i]['x'] + step, POINTS[i]['y'] + step);
+      ctx.lineTo(POINTS[i].x + step, POINTS[i].y + step);
     }
     ctx.closePath();
     ctx.fill();
   };
-  drawCloud(shadowCloudColor, shadowStep);
-  drawCloud(cloudColor, 0);
 
-  ctx.fillStyle = textColor;
-  ctx.textBaseline = 'hanging';
-  ctx.fillText('Ура вы победили!', 250, 40);
-  ctx.fillText('Список результатов:', 240, 60);
+  function drawText(){
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.textBaseline = 'hanging';
+    ctx.fillText(TEXT_WIN.text, TEXT_WIN.x, TEXT_WIN.y);
+    ctx.fillText(TEXT_RESULT.text, TEXT_RESULT.x, TEXT_RESULT.y);
+  };
 
-  var maxTime = 0;
-  for (var i = 0; i < times.length; i++) {
-    var time = times[i];
-    if (time > maxTime) {
-      maxTime = time;
+  // function findResult(){
+    var maxTime = 0;
+    for (var i = 0; i < times.length; i++) {
+      var time = times[i];
+      if (time > maxTime) {
+        maxTime = time;
+      }
+    }
+    var result = HISTOGRAM_HEIGHT / (maxTime - 0);
+    // return result;
+  // }
+  // var result = findResult();
+
+  function createHistogram(){
+    var range = 0;
+    for (i = 0; i < names.length; i++) {
+      if (names[i] === 'Вы') {
+        ctx.fillStyle = COLUMN_COLOR_YOUR_RESULT;
+      } else {
+        ctx.fillStyle = COLUMN_COLOR;
+      }
+      ctx.fillRect(HISTOGRAM_BEGIN['column'].x + range, HISTOGRAM_BEGIN['column'].y - result * times[i], HISTOGRAM_WIDTH, result * times[i]);
+      ctx.fillText(names[i], HISTOGRAM_BEGIN['name'].x + range, HISTOGRAM_BEGIN['name'].y);
+      ctx.fillText((times[i] / 1000).toFixed(2), HISTOGRAM_BEGIN['time'].x + range, HISTOGRAM_BEGIN['time'].y - result * times[i]);
+      range += 70;
     }
   }
-  var result = histogramHeight / (maxTime - 0);
 
-  var range = 0;
-  for (i = 0; i < names.length; i++) {
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = columnColorYourResult;
-    } else {
-      ctx.fillStyle = columnColor;
-    }
-    ctx.fillRect(histogramBegin['column']['x'] + range, histogramBegin['column']['y'] - result * times[i], histogramWidth, result * times[i]);
-    ctx.fillText(names[i], histogramBegin['name']['x'] + range, histogramBegin['name']['y']);
-    ctx.fillText((times[i] / 1000).toFixed(2), histogramBegin['time']['x'] + range, histogramBegin['time']['y'] - result * times[i]);
-    range += 70;
+  function loadResults(){
+    drawCloud(SHADOW_CLOUD_COLOR, SHADOW_STEP);
+    drawCloud(CLOUD_COLOR, 0);
+    drawText();
+    createHistogram()
   }
+  loadResults();
+
 };
