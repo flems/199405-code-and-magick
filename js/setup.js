@@ -9,14 +9,14 @@ var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-function creatPlayers(){
+function creatPlayers() {
   var players = [];
-  for (var i = 0; i < 4; i++){
+  for (var i = 0; i < 4; i++) {
     players[i] = {
       name: WIZARD_NAMES[getRandomInt(0, WIZARD_NAMES.length)] + ' ' + WIZARD_SURNAMES[getRandomInt(0, WIZARD_NAMES.length)],
       coatColor: WIZARD_CLOAK[getRandomInt(0, WIZARD_CLOAK.length)],
       eyesColor: WIZARD_EYES[getRandomInt(0, WIZARD_EYES.length)],
-    }
+    };
   }
   return players;
 }
@@ -28,7 +28,7 @@ function creatWizardElement(wizard) {
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
   return wizardElement;
-};
+}
 
 function fillWizardList() {
   var otherUsers = document.querySelector('.setup-similar-list');
@@ -37,9 +37,9 @@ function fillWizardList() {
     wizardListFragment.appendChild(creatWizardElement(players[i]));
   }
   otherUsers.appendChild(wizardListFragment);
-};
+}
 
-function loadWizard(){
+function loadWizard() {
   var userDialog = document.querySelector('.overlay');
   fillWizardList();
   userDialog.classList.remove('hidden');
