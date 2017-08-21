@@ -1,7 +1,7 @@
 'use strict';
+
 var userDialog = document.querySelector('.overlay');
 var otherUsers = userDialog.querySelector('.setup-similar-list');
-userDialog.classList.remove('hidden');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -33,6 +33,9 @@ var players = [
   },
 
 ];
+
+userDialog.classList.remove('hidden');
+
 var creatWizardElement = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
@@ -49,5 +52,4 @@ var fillWizardList = function () {
   otherUsers.appendChild(WizardListFragment);
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 };
-
 fillWizardList();
