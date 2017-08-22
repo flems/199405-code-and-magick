@@ -9,18 +9,18 @@ var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-function createPlayers() {
+function createPlayers(name, surname, cloak, eyes) {
   var players = [];
   for (var i = 0; i < 4; i++) {
     players[i] = {
-      name: WIZARD_NAMES[getRandomInt(0, WIZARD_NAMES.length)] + ' ' + WIZARD_SURNAMES[getRandomInt(0, WIZARD_NAMES.length)],
-      coatColor: WIZARD_CLOAK[getRandomInt(0, WIZARD_CLOAK.length)],
-      eyesColor: WIZARD_EYES[getRandomInt(0, WIZARD_EYES.length)],
+      name: name[getRandomInt(0, name.length)] + ' ' + surname[getRandomInt(0, surname.length)],
+      coatColor: cloak[getRandomInt(0, cloak.length)],
+      eyesColor: eyes[getRandomInt(0, eyes.length)],
     };
   }
   return players;
 }
-var players = createPlayers();
+var players = createPlayers(WIZARD_NAMES, WIZARD_SURNAMES, WIZARD_CLOAK, WIZARD_EYES);
 
 function createWizardElement(wizard) {
   var wizardElement = document.querySelector('#similar-wizard-template').content.cloneNode(true);
