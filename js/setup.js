@@ -9,7 +9,7 @@ var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-function creatPlayers() {
+function createPlayers() {
   var players = [];
   for (var i = 0; i < 4; i++) {
     players[i] = {
@@ -20,9 +20,9 @@ function creatPlayers() {
   }
   return players;
 }
-var players = creatPlayers();
+var players = createPlayers();
 
-function creatWizardElement(wizard) {
+function createWizardElement(wizard) {
   var wizardElement = document.querySelector('#similar-wizard-template').content.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
@@ -34,7 +34,7 @@ function fillWizardList() {
   var otherUsers = document.querySelector('.setup-similar-list');
   var wizardListFragment = document.createDocumentFragment();
   for (var i = 0; i < 4; i++) {
-    wizardListFragment.appendChild(creatWizardElement(players[i]));
+    wizardListFragment.appendChild(createWizardElement(players[i]));
   }
   otherUsers.appendChild(wizardListFragment);
 }
