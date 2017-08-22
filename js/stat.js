@@ -53,22 +53,22 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(TEXT_RESULT.text, TEXT_RESULT.x, TEXT_RESULT.y);
   }
 
-  // function findResult(){
-  var maxTime = 0;
-  for (var i = 0; i < times.length; i++) {
-    var time = times[i];
-    if (time > maxTime) {
-      maxTime = time;
+  function findResult() {
+    var maxTime = 0;
+    for (var i = 0; i < times.length; i++) {
+      var time = times[i];
+      if (time > maxTime) {
+        maxTime = time;
+      }
     }
+    var result = HISTOGRAM_HEIGHT / (maxTime - 0);
+    return result;
   }
-  var result = HISTOGRAM_HEIGHT / (maxTime - 0);
-  // return result;
-  // }
-  // var result = findResult();
+  var result = findResult();
 
   function createHistogram() {
     var range = 0;
-    for (i = 0; i < names.length; i++) {
+    for (var i = 0; i < names.length; i++) {
       if (names[i] === 'Вы') {
         ctx.fillStyle = COLUMN_COLOR_YOUR_RESULT;
       } else {
@@ -81,12 +81,9 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
 
-  function loadResults() {
-    drawCloud(SHADOW_CLOUD_COLOR, SHADOW_STEP);
-    drawCloud(CLOUD_COLOR, 0);
-    drawText();
-    createHistogram();
-  }
-  loadResults();
+  drawCloud(SHADOW_CLOUD_COLOR, SHADOW_STEP);
+  drawCloud(CLOUD_COLOR, 0);
+  drawText();
+  createHistogram();
 
 };
